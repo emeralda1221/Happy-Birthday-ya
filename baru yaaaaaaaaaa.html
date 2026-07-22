@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Muhammad Sandy</title>
+    <!-- Library Konfeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #071426;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* SPLASH SCREEN */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: #071426;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #splash h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(79, 166, 255, 0.6);
+        }
+
+        #splash p {
+            font-size: 14px;
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+
+        #splash.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* FLOATING MINI PLAYLIST PLAYER WITH LYRICS */
+        .music-player-card {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 9999;
+            background: rgba(15, 32, 58, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 14px;
+            border-radius: 20px;
+            width: 220px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .playlist-badge {
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #ffe600;
+            font-weight: bold;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .player-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            width: 115px;
+            overflow: hidden;
+        }
+
+        .song-title {
+            font-size: 11px;
+            font-weight: bold;
+            color: #8fd3ff;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .song-artist {
+            font-size: 9px;
+            opacity: 0.7;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .p-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: transform 0.1s;
+        }
+
+        .p-btn:active {
+            transform: scale(0.85);
+        }
+
+        /* LYRICS CONTAINER IN PLAYER */
+        .lyrics-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 6px 8px;
+            height: 38px;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lyrics-line {
+            font-size: 10.5px;
+            color: #ffffff;
+            opacity: 0.9;
+            line-height: 1.3;
+            transition: all 0.3s ease;
+            font-style: italic;
+        }
+
+        /* MAIN APP CONTAINER */
+        .app {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* TOP BAR HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            height: 70px;
+            background: rgba(7, 20, 38, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 999;
+        }
+
+        header .menu {
+            cursor: pointer;
+            font-size: 22px;
+            padding: 5px;
+            transition: transform 0.2s;
+        }
+
+        header .menu:active { transform: scale(0.85); }
+        header .title { text-align: left; margin-left: 5px; }
+        header h2 { margin: 0; font-size: 16px; }
+        header span { font-size: 10px; opacity: 0.7; }
+
+        header .love {
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+        header .love:active { transform: scale(1.3); }
+
+        /* NOTIFIKASI LIKE SOSMED */
+        .fake-notif {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 999999;
+            transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .fake-notif.show { top: 20px; }
+
+        .notif-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .notif-content { flex-grow: 1; }
+        .notif-title { font-size: 13px; font-weight: 600; color: #ffffff; }
+        .notif-subtitle { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+        /* PAGES GENERAL STYLING */
+        .page {
+            display: none;
+            padding: 95px 20px 120px 20px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .page.active { display: block; }
+        .page h2 { font-size: 24px; margin-bottom: 20px; color: #8fd3ff; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HOME PAGE & BIRTHDAY CAKE */
+        #home { text-align: center; }
+        .photo { margin-top: 10px; display: flex; justify-content: center; }
+        .photo img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #4fa6ff;
+            box-shadow: 0 0 40px rgba(79, 166, 255, 0.5);
+        }
+
+        #home h1 { margin-top: 15px; font-size: 26px; }
+        #home p { margin-top: 5px; opacity: 0.8; font-size: 14px; }
+
+        /* KUE & LILIN TIUP */
+        .cake-container {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .cake-graphic {
+            position: relative;
+            font-size: 60px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .flame {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            animation: flicker 0.6s infinite alternate;
+            transition: opacity 0.5s ease;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-2deg); opacity: 0.9; }
+            100% { transform: translateX(-50%) scale(1.15) rotate(2deg); opacity: 1; }
+        }
+
+        .flame.off { opacity: 0 !important; animation: none; }
+
+        .blow-btn {
+            background: linear-gradient(135deg, #ff5e7e, #dc2743);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .blow-btn:active { transform: scale(0.92); }
+
+        .wish-text {
+            font-size: 13px;
+            color: #ffe600;
+            margin-top: 10px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* COUNTDOWN */
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .countdown div {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 12px 5px;
+            border-radius: 16px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .countdown h2 { font-size: 24px; margin: 0; color: #8fd3ff; }
+        .countdown span { font-size: 10px; opacity: 0.7; }
+
+        #openLetterBtn {
+            margin-top: 20px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(135deg, #4fa6ff, #0066cc);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(79, 166, 255, 0.4);
+            transition: transform 0.2s;
+        }
+
+        #openLetterBtn:active { transform: scale(0.95); }
+
+        /* MOOD TRACKER PAGE */
+        .mood-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 15px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mood-btn {
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mood-btn span {
+            font-size: 10px;
+            color: white;
+            opacity: 0.7;
+        }
+
+        .mood-btn:hover, .mood-btn.selected {
+            transform: scale(1.25);
+            filter: drop-shadow(0 0 10px rgba(255,230,0,0.8));
+        }
+
+        .mood-card-response {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 22px;
+            border-left: 5px solid #ffe600;
+            backdrop-filter: blur(15px);
+            display: none;
+            animation: fadeIn 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .mood-card-response h3 {
+            font-size: 18px;
+            color: #ffe600;
+            margin-bottom: 10px;
+        }
+
+        .mood-card-response p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* STORY (TIMELINE) */
+        .timeline { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
+        .item {
+            background: rgba(255, 255, 255, .08);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border-left: 4px solid #6ea8ff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+        }
+        .item h3 { margin: 0 0 8px; color: #8fd3ff; font-size: 17px; }
+        .item p { font-size: 14px; line-height: 1.5; opacity: 0.9; }
+
+        /* GALLERY */
+        .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px; }
+        .gallery img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: .3s;
+        }
+        .gallery img:hover { transform: scale(1.03); }
+
+        /* FULLSCREEN GALLERY VIEWER */
+        #viewer {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: .4s;
+            z-index: 99999;
+        }
+        #viewer.show { opacity: 1; visibility: visible; }
+        #viewer img { max-width: 90%; max-height: 85%; border-radius: 20px; box-shadow: 0 0 50px rgba(255, 255, 255, .2); }
+        #closeViewer { position: absolute; top: 30px; right: 35px; font-size: 40px; cursor: pointer; color: white; }
+
+        /* AMPLOP LETTER */
+        .envelope { margin-top: 20px; cursor: pointer; }
+        .cover {
+            height: 200px;
+            background: #6ea8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 80px;
+            border-radius: 20px;
+            transition: .6s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .paper {
+            display: none;
+            background: rgba(255, 255, 255, .08);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 15px;
+            line-height: 1.8;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+        .paper p { white-space: pre-line; font-size: 14.5px; }
+
+        /* WISH */
+        .wish-card {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, .08);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border-left: 4px solid gold;
+        }
+        .wish-card h3 { margin-bottom: 6px; color: #ffe600; }
+
+        /* MODAL POPUP TEKA-TEKI & KUIS */
+        .menu-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 20, 38, 0.98);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            overflow-y: auto;
+        }
+
+        .menu-modal.active { opacity: 1; visibility: visible; }
+        .menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .menu-header h3 { font-size: 18px; color: #8fd3ff; }
+        .close-menu { font-size: 28px; cursor: pointer; color: white; }
+
+        .game-select-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .game-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .game-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.15); }
+        .game-card h4 { color: #ffe600; font-size: 16px; margin-bottom: 6px; }
+        .game-card p { font-size: 13px; opacity: 0.8; }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 10px;
+            display: none;
+        }
+        .quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #ffe600; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-btn:active { transform: scale(0.98); }
+
+        .back-to-menu-btn {
+            margin-bottom: 15px;
+            background: none;
+            border: none;
+            color: #8fd3ff;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(79, 166, 255, 0.15);
+            border-radius: 20px;
+            border: 1px solid #4fa6ff;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .quiz-result h4 { color: #ffe600; margin-bottom: 8px; font-size: 18px; }
+        .quiz-result p { font-size: 14px; line-height: 1.5; opacity: 0.9; margin-bottom: 15px; }
+
+        .reasons-container { display: none; flex-direction: column; gap: 12px; margin-top: 10px; }
+        .reason-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 15px 18px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: fadeIn 0.4s ease;
+        }
+        .reason-num {
+            background: #4fa6ff;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+        .reason-text { font-size: 13.5px; line-height: 1.4; }
+
+        .ss-notice {
+            background: rgba(255, 230, 0, 0.15);
+            border: 1px dashed #ffe600;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px !important;
+            color: #ffe600;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* FLOATING HEARTS & STARS */
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            animation: fly 5s linear forwards;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        @keyframes fly {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
+        }
+
+        .shooting {
+            position: fixed;
+            width: 3px;
+            height: 130px;
+            background: linear-gradient(white, transparent);
+            transform: rotate(45deg);
+            animation: shoot 2s linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes shoot {
+            0% { top: -100px; left: 20%; opacity: 1; }
+            100% { top: 100%; left: 90%; opacity: 0; }
+        }
+
+        /* BOTTOM NAV */
+        nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 30px);
+            max-width: 450px;
+            height: 65px;
+            background: rgba(255, 255, 255, .08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 999;
+        }
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 18px;
+            gap: 3px;
+            cursor: pointer;
+            transition: .3s;
+            width: 16%;
+            opacity: 0.6;
+        }
+        nav span { font-size: 10px; }
+        nav button.active { color: #6ea8ff; opacity: 1; transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+
+    <!-- NOTIFIKASI LIKE "LIKED YOUR PHOTO" -->
+    <div class="fake-notif" id="fakeNotif">
+        <div class="notif-icon">❤️</div>
+        <div class="notif-content">
+            <div class="notif-title"><b>emeralda_</b> liked your photo. <span style="opacity:0.6; font-weight:normal;">1s</span></div>
+            <div class="notif-subtitle">"Sebab kamu adalah alasan di balik senyumku setiap hari."</div>
+        </div>
+    </div>
+
+    <!-- FLOATING MINI PLAYLIST PLAYER WITH LYRICS -->
+    <div class="music-player-card">
+        <div class="playlist-badge">🎵 PLAYLIST UNTUK SANDY</div>
+        <div class="player-top">
+            <div class="song-info">
+                <span class="song-title" id="songTitle">Serta Mulia</span>
+                <span class="song-artist" id="songArtist">Sal Priadi</span>
+            </div>
+            <div class="player-controls">
+                <button class="p-btn" id="prevBtn">⏮️</button>
+                <button class="p-btn" id="playBtn">▶️</button>
+                <button class="p-btn" id="nextBtn">⏭️</button>
+            </div>
+        </div>
+        <div class="lyrics-box">
+            <div class="lyrics-line" id="lyricText">🎵 Klik Play untuk putar musik & lirik</div>
+        </div>
+    </div>
+
+    <!-- AUDIO PLAYER HIDDEN -->
+    <audio id="bgMusic"></audio>
+
+    <!-- SPLASH SCREEN -->
+    <div id="splash">
+        <h1>Happy Birthday</h1>
+        <p>Loading moments...</p>
+    </div>
+
+    <div class="app">
+        <!-- TOP BAR -->
+        <header>
+            <div class="menu">☰</div>
+            <div class="title">
+                <h2>Muhammad Sandy</h2>
+                <span>30 September 2026</span>
+            </div>
+            <div class="love" id="loveHeaderBtn" style="color:#ff5e7e;">❤</div>
+        </header>
+
+        <!-- HOME -->
+        <section id="home" class="page active">
+            <div class="photo">
+                <img src="foto/profile.jpg">
+            </div>
+            <h1>Happy Birthday</h1>
+            <p>Semoga hari ini menjadi hari terbaikmu.</p>
+
+            <!-- KUE & LILIN INTERAKTIF -->
+            <div class="cake-container">
+                <div class="cake-graphic">
+                    <span class="flame" id="candleFlame">🔥</span>
+                    🎂
+                </div>
+                <button class="blow-btn" id="blowCandleBtn">🕯️ Tiup Lilin Ulang Tahun</button>
+                <div class="wish-text" id="wishText">✨ Make a wish, Sayang! Semoga semua doamu dikabulkan ✨</div>
+            </div>
+
+            <div class="countdown">
+                <div><h2 id="days">00</h2><span>Days</span></div>
+                <div><h2 id="hours">00</h2><span>Hours</span></div>
+                <div><h2 id="minutes">00</h2><span>Minutes</span></div>
+                <div><h2 id="seconds">00</h2><span>Seconds</span></div>
+            </div>
+
+            <button id="openLetterBtn">Open Letter 💌</button>
+        </section>
+
+        <!-- MOOD TRACKER PAGE -->
+        <section id="mood" class="page">
+            <h2>🎨 How are you feeling today?</h2>
+            <p style="font-size: 13px; opacity: 0.8; margin-bottom: 15px;">Pilih mood kamu hari ini dan lihat pesan khusus dari Emeralda untukmu! 🤍</p>
+            
+            <div class="mood-container">
+                <button class="mood-btn" onclick="selectMood('happy')">
+                    😊
+                    <span>Happy</span>
+                </button>
+                <button class="mood-btn" onclick="selectMood('tired')">
+                    🥱
+                    <span>Tired</span>
+                </button>
+                <button class="mood-btn" onclick="selectMood('miss')">
+                    🥺
+                    <span>Miss You</span>
+                </button>
+                <button class="mood-btn" onclick="selectMood('stress')">
+                    😤
+                    <span>Stressed</span>
+                </button>
+                <button class="mood-btn" onclick="selectMood('excited')">
+                    🥳
+                    <span>Party</span>
+                </button>
+            </div>
+
+            <div class="mood-card-response" id="moodResponse">
+                <h3 id="moodTitle">Judul Mood</h3>
+                <p id="moodMessage">Pesan respons mood akan muncul di sini...</p>
+            </div>
+        </section>
+
+        <!-- STORY -->
+        <section id="story" class="page">
+            <h2>📖 Our Story</h2>
+            <div class="timeline">
+                <div class="item">
+                    <h3>📱 First Story</h3>
+                    <p>Kamu notice story aku. Mungkin biasa buat kamu, tapi buat aku itu awal semuanya.</p>
+                </div>
+                <div class="item">
+                    <h3>🌙 Lebaran</h3>
+                    <p>Kamu follow aku. Dari situ rasanya mulai ada pintu kecil yang kebuka.</p>
+                </div>
+                <div class="item">
+                    <h3>💙 9 April</h3>
+                    <p>Aku kepencet senggol gara-gara lihat viewers profil. Ternyata malah jadi awal kenalan.</p>
+                </div>
+                <div class="item">
+                    <h3>💬 WhatsApp</h3>
+                    <p>Dari Instagram pindah ke WhatsApp. Obrolan mulai makin panjang.</p>
+                </div>
+                <div class="item">
+                    <h3>☕ Meet Up</h3>
+                    <p>Akhirnya kita ketemu dan semoga ceritanya terus berlanjut.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section id="gallery" class="page">
+            <h2>📷 Gallery</h2>
+            <div class="gallery">
+                <img src="foto/1.jpg" alt="Foto 1">
+                <img src="foto/2.jpg" alt="Foto 2">
+                <img src="foto/3.jpg" alt="Foto 3">
+                <img src="foto/4.jpg" alt="Foto 4">
+                <img src="foto/5.jpg" alt="Foto 5">
+                <img src="foto/6.jpg" alt="Foto 6">
+            </div>
+        </section>
+
+        <!-- LETTER WITH ENVELOPE -->
+        <section id="letter" class="page">
+            <h2>💌 Letter</h2>
+            <div class="envelope">
+                <div class="cover">💌</div>
+                <div class="paper">
+                    <p id="typedText"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- WISH -->
+        <section id="wish" class="page">
+            <h2>❤️ My Wishes</h2>
+            
+            <div class="wish-card">
+                <h3>✨ Endless Happiness</h3>
+                <p>May your year ahead be filled with endless joy, peace, and pure happiness.</p>
+            </div>
+            <div class="wish-card">
+                <h3>🚀 Career & Dreams</h3>
+                <p>Wishing you endless success and open doors to all your biggest dreams.</p>
+            </div>
+            <div class="wish-card">
+                <h3>🌊 Inner Peace</h3>
+                <p>Semoga hatimu selalu ditenangkan dan dilindungi dari hal-hal yang berat.</p>
+            </div>
+            <div class="wish-card">
+                <h3>💫 Growth & Strength</h3>
+                <p>May you keep growing into the amazing, strong person you are meant to be.</p>
+            </div>
+            <div class="wish-card">
+                <h3>🌻 Health & Longevity</h3>
+                <p>Semoga selalu diberi kesehatan, umur yang panjang, dan raga yang kuat.</p>
+            </div>
+        </section>
+
+        <!-- BOTTOM NAV -->
+        <nav>
+            <button data-page="home" class="active">🏠<span>Home</span></button>
+            <button data-page="mood">🎨<span>Mood</span></button>
+            <button data-page="story">📖<span>Story</span></button>
+            <button data-page="gallery">📷<span>Gallery</span></button>
+            <button data-page="letter">💌<span>Letter</span></button>
+            <button data-page="wish">❤<span>Wish</span></button>
+        </nav>
+    </div>
+
+    <!-- MODAL POPUP GAME & KUIS -->
+    <div id="menuModal" class="menu-modal">
+        <div class="menu-header">
+            <h3>🎮 Games & Quiz Rahasia</h3>
+            <span class="close-menu" id="closeMenuBtn">✕</span>
+        </div>
+        
+        <div id="gameSelect" class="game-select-container">
+            <div class="game-card" onclick="startQuiz('moment')">
+                <h4>🧩 Teka-Teki Momen Kita</h4>
+                <p>Uji seberapa ingat kamu sama momen-momen awal kita kenalan!</p>
+            </div>
+            <div class="game-card" onclick="startQuiz('aboutMe')">
+                <h4>✨ Seberapa Tau Kamu Tentang Aku?</h4>
+                <p>Kuis khusus buat ngetes seberapa peka dan kenal kamu sama Emeralda! 😉</p>
+            </div>
+            <div class="game-card" onclick="openReasons()">
+                <h4>💖 10 Reasons Why I Love You</h4>
+                <p>10 Alasan kenapa kamu itu sosok yang spesial banget buat aku.</p>
+            </div>
+        </div>
+
+        <div class="quiz-container" id="quizBox">
+            <button class="back-to-menu-btn" onclick="backToGameSelect()">⬅ Kembali ke Pilihan Game</button>
+            <div class="quiz-question" id="quizQuestion">Pertanyaan akan muncul di sini...</div>
+            <div class="quiz-options" id="quizOptions"></div>
+        </div>
+
+        <div class="quiz-result" id="quizResult">
+            <h4 id="resultTitle">🎉 SELAMAT!</h4>
+            <p id="quizResultMessage">Pesan hasil akan muncul di sini...</p>
+            <div class="ss-notice">
+                📸 JANGAN LUPA SCREENSHOT HALAMAN INI TERUS KIRIM KE AKU YA SAYANG! 💖
+            </div>
+            <button class="quiz-btn" style="margin-top: 15px; text-align: center; width: 100%; background: #4fa6ff;" onclick="backToGameSelect()">Main Game Lainnya 🔄</button>
+        </div>
+
+        <div class="reasons-container" id="reasonsBox">
+            <button class="back-to-menu-btn" onclick="backToGameSelect()">⬅ Kembali ke Pilihan Game</button>
+            <h3 style="color:#ffe600; margin-bottom: 10px; text-align:center;">💖 10 Reasons Why I Love You</h3>
+            <div id="reasonsList"></div>
+            <div class="ss-notice" style="text-align: center;">
+                📸 SCREENSHOT HALAMAN INI BILA PERLU BIAR KAMU INGAT TRUS HAAHA! 💖
+            </div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN VIEWER -->
+    <div id="viewer">
+        <span id="closeViewer">✕</span>
+        <img id="viewerImg" src="" alt="Fullscreen View">
+    </div>
+
+    <script>
+        // DAFTAR PLAYLIST SESUAI FOLDER LAKU KAMU
+        const playlist = [
+            {
+                title: "Serta Mulia",
+                artist: "Sal Priadi",
+                src: "lagu/Serta Mulia.mp3",
+                lyrics: [
+                    { time: 0, text: "🎵 Mendaratlah, berselancar di atas senyuman..." },
+                    { time: 10, text: "Serta mulia, panjang umur dan bahagia..." },
+                    { time: 20, text: "🤍 Selamat ulang tahun, sayangku Sandy..." },
+                    { time: 30, text: "Semoga senyummu selalu melekat selamanya..." }
+                ]
+            },
+            {
+                title: "Ceritanya Jatuh Cinta",
+                artist: "Jeje",
+                src: "lagu/Ceritanya Jatuh Cinta.mp3",
+                lyrics: [
+                    { time: 0, text: "🎵 Ceritanya aku sedang jatuh cinta..." },
+                    { time: 10, text: "Kepada dirimu yang selalu ada di pikiran..." },
+                    { time: 20, text: "🤍 Makasih udah bikin hari-hariku makin bewarna..." }
+                ]
+            },
+            {
+                title: "Dandelions",
+                artist: "Ruth B.",
+                src: "lagu/Dandelions.mp3",
+                lyrics: [
+                    { time: 0, text: "🎵 Cause I'm in a field of dandelions..." },
+                    { time: 10, text: "Wishing on every one that you'll be mine..." },
+                    { time: 20, text: "🤍 I see forever in your eyes..." }
+                ]
+            },
+            {
+                title: "Love Story",
+                artist: "Taylor Swift",
+                src: "lagu/Love Story.mp3",
+                lyrics: [
+                    { time: 0, text: "🎵 We were both young when I first saw you..." },
+                    { time: 10, text: "It's a love story, baby, just say, 'Yes'..." },
+                    { time: 20, text: "🤍 You'll be the prince and I'll be the princess..." }
+                ]
+            },
+            {
+                title: "You're Still The One",
+                artist: "Shania Twain",
+                src: "lagu/Youre Still The One.mp3",
+                lyrics: [
+                    { time: 0, text: "🎵 You're still the one I run to..." },
+                    { time: 10, text: "The one that I belong to..." },
+                    { time: 20, text: "🤍 You're still the one I want for life..." }
+                ]
+            }
+        ];
+
+        let currentSongIndex = 0;
+        const bgMusic = document.getElementById("bgMusic");
+        const songTitle = document.getElementById("songTitle");
+        const songArtist = document.getElementById("songArtist");
+        const playBtn = document.getElementById("playBtn");
+        const lyricText = document.getElementById("lyricText");
+
+        function loadSong(index) {
+            const song = playlist[index];
+            songTitle.innerText = song.title;
+            songArtist.innerText = song.artist;
+            bgMusic.src = song.src;
+            lyricText.innerText = `🎵 ${song.title} - ${song.artist}`;
+        }
+
+        function playSong() {
+            bgMusic.play().then(() => {
+                playBtn.innerText = "⏸️";
+            }).catch(() => {});
+        }
+
+        function pauseSong() {
+            bgMusic.pause();
+            playBtn.innerText = "▶️";
+        }
+
+        playBtn.onclick = () => {
+            if (bgMusic.paused) {
+                playSong();
+            } else {
+                pauseSong();
+            }
+        };
+
+        document.getElementById("nextBtn").onclick = () => {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+            playSong();
+        };
+
+        document.getElementById("prevBtn").onclick = () => {
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            loadSong(currentSongIndex);
+            playSong();
+        };
+
+        // AUTO UPDATE LIRIK DENGAN WAKTU LAGU
+        bgMusic.ontimeupdate = () => {
+            const currentTime = bgMusic.currentTime;
+            const currentLyrics = playlist[currentSongIndex].lyrics;
+            
+            for (let i = currentLyrics.length - 1; i >= 0; i--) {
+                if (currentTime >= currentLyrics[i].time) {
+                    lyricText.innerText = currentLyrics[i].text;
+                    break;
+                }
+            }
+        };
+
+        loadSong(0);
+
+        // RESPONS MOOD TRACKER
+        const moodData = {
+            happy: {
+                title: "😊 BISA BIKIN AKU SENYUM JUGA GAK?",
+                msg: "Ikut seneng banget kalau hari ini kamu bahagia! Tetep simpen senyum gantengmu itu ya sayang, soalnya senyum kamu itu beneran booster energi buat aku juga! 🤍"
+            },
+            tired: {
+                title: "🥱 ISTIRAHAT DULU YAA SAYANG...",
+                msg: "Capek ya? Sini, senderan sebentar. Kamu udah berusaha sangat baik hari ini. Istirahat yang cukup ya ganteng, jangan dipaksain. Ingat, ada aku yang selalu bangga sama kamu! 🫂❤️"
+            },
+            miss: {
+                title: "🥺 AKU JUGA KANGEN BANGET TAHU!",
+                msg: "Uuuu kasihan pacarku lagi kangen! Samaan kok, aku juga kangen banget sama kamu. Nanti kalau ada waktu kita ketemu yaa!✨"
+            },
+            stress: {
+                title: "😤 TARIK NAPAS DALAM-DALAM...",
+                msg: "Semua bakal baik-baik aja kok. Jangan terlalu dipikirin sendirian ya, kalau mau cerita langsung WhatsApp aku aja. Aku siap dengerin kapan pun kamu mau! Fighting Sandy! 💪💙"
+            },
+            excited: {
+                title: "🥳 BIRTHDAY VIBE IS ON!",
+                msg: "Wuhu! Hari ini hari spesialmu! Pokoknya hari ini kamu harus happy, makan yang enak, dan enjoy setiap detiknya! Happy Birthday once again my favorit person! 🎉🎂"
+            }
+        };
+
+        function selectMood(type) {
+            const respBox = document.getElementById("moodResponse");
+            const title = document.getElementById("moodTitle");
+            const msg = document.getElementById("moodMessage");
+
+            document.querySelectorAll(".mood-btn").forEach(btn => btn.classList.remove("selected"));
+
+            title.innerText = moodData[type].title;
+            msg.innerText = moodData[type].msg;
+            respBox.style.display = "block";
+
+            fireConfetti();
+        }
+
+        // NOTIFIKASI LIKE "LIKED YOUR PHOTO"
+        const loveHeaderBtn = document.getElementById("loveHeaderBtn");
+        const fakeNotif = document.getElementById("fakeNotif");
+
+        if (loveHeaderBtn && fakeNotif) {
+            loveHeaderBtn.onclick = () => {
+                fireConfetti();
+                fakeNotif.classList.add("show");
+                setTimeout(() => fakeNotif.classList.remove("show"), 4000);
+            };
+        }
+
+        // LOGIKA TIUP LILIN
+        const blowCandleBtn = document.getElementById("blowCandleBtn");
+        const candleFlame = document.getElementById("candleFlame");
+        const wishText = document.getElementById("wishText");
+
+        if (blowCandleBtn && candleFlame) {
+            blowCandleBtn.onclick = () => {
+                candleFlame.classList.add("off");
+                wishText.style.display = "block";
+                blowCandleBtn.innerText = "💨 Lilin Sudah Ditiup!";
+                blowCandleBtn.style.opacity = "0.6";
+                blowCandleBtn.disabled = true;
+
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            };
+        }
+
+        // SPLASH SCREEN HIDE
+        window.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                const splash = document.getElementById("splash");
+                if (splash) splash.classList.add("hide");
+            }, 1500);
+        });
+
+        // KONFETI
+        function fireConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // NAV & PAGE SWITCHING
+        const pages = document.querySelectorAll(".page");
+        const nav = document.querySelectorAll("nav button");
+
+        function switchTab(pageId) {
+            pages.forEach(p => p.classList.remove("active"));
+            nav.forEach(n => n.classList.remove("active"));
+
+            const targetBtn = document.querySelector(`nav button[data-page="${pageId}"]`);
+            const targetPage = document.getElementById(pageId);
+
+            if (targetBtn && targetPage) {
+                targetBtn.classList.add("active");
+                targetPage.classList.add("active");
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        nav.forEach(btn => {
+            btn.onclick = () => switchTab(btn.dataset.page);
+        });
+
+        const openBtn = document.getElementById("openLetterBtn");
+        if (openBtn) {
+            openBtn.onclick = () => {
+                switchTab("letter");
+                fireConfetti();
+            };
+        }
+
+        // EFEK KETIK SURAT
+        const letterText = `Hai Sayang...
+
+Selamat ulang tahun yaa 🤍
+
+Waktu mikirin mau kasih kado apa, jujur aku bingung banget. Aku tahu kamu bisa beli apa saja yang kamu mau. Makanya ketimbang barang, aku pengin kasih sesuatu yang ada effort dan cerita di dalamnya.
+
+Akhirnya jadilah web sederhana ini. Anggap saja ini kado kecil dari aku, sambil aku belajar ngoding dikit-dikit, hehe. Walaupun simpel, tapi setiap tulisan di sini beneran aku buat khusus untuk kamu.
+
+Being with you feels like home. Thank you for being my safe place, my favorite notification, and my biggest smile. Terima kasih sudah hadir dan menjadi bagian dari cerita yang nggak pernah aku sangka sebelumnya.
+
+Semoga di usiamu yang baru ini, semua doa baikmu satu per satu dikabulkan Allah. Semoga kamu selalu sehat, bahagia, sukses, dan selalu dikelilingi oleh orang-orang baik. I’m so proud of everything you are and everything you’re becoming.
+
+Happy Birthday, my favorite person! 🤍`;
+
+        let isTyped = false;
+        function typeWriter() {
+            if (isTyped) return;
+            isTyped = true;
+            let i = 0;
+            const elem = document.getElementById("typedText");
+            elem.innerHTML = "";
+            
+            function type() {
+                if (i < letterText.length) {
+                    elem.innerHTML += letterText.charAt(i) === '\n' ? '<br>' : letterText.charAt(i);
+                    i++;
+                    setTimeout(type, 40);
+                }
+            }
+            type();
+        }
+
+        const cover = document.querySelector(".cover");
+        const paper = document.querySelector(".paper");
+        if (cover && paper) {
+            cover.onclick = () => {
+                paper.style.display = "block";
+                cover.style.transform = "rotateX(180deg)";
+                cover.style.opacity = "0.3";
+                fireConfetti();
+                typeWriter();
+            };
+        }
+
+        // FULLSCREEN GALLERY
+        const viewer = document.getElementById("viewer");
+        const viewerImg = document.getElementById("viewerImg");
+        const closeViewer = document.getElementById("closeViewer");
+
+        document.querySelectorAll(".gallery img").forEach(img => {
+            img.onclick = () => {
+                viewer.classList.add("show");
+                viewerImg.src = img.src;
+            };
+        });
+
+        if (closeViewer) closeViewer.onclick = () => viewer.classList.remove("show");
+
+        // FLOATING HEARTS & STARS
+        setInterval(() => {
+            let h = document.createElement("div");
+            h.className = "heart";
+            h.innerHTML = "❤";
+            h.style.left = Math.random() * window.innerWidth + "px";
+            h.style.color = ["#ff5e7e", "#8fd3ff", "#ffb3c6"][Math.floor(Math.random() * 3)];
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }, 900);
+
+        setInterval(() => {
+            let s = document.createElement("div");
+            s.className = "shooting";
+            s.style.left = (Math.random() * 60) + "%";
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 2000);
+        }, 7000);
+
+        // COUNTDOWN TIMER
+        const targetDate = new Date("September 30, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // KUIS & GAMES
+        const quizDataMoments = [
+            {
+                q: "1. Tanggal berapa kita kenalan gara-gara kepencet senggol?",
+                options: ["9 April", "10 April", "30 September", "1 Januari"],
+                correct: 0
+            },
+            {
+                q: "2. Momen apa yang bikin kita pertama kali mutualan IG?",
+                options: ["Pas Tahun Baru", "Pas Lebaran", "Pas Ulang Tahun", "Pas Random Aja"],
+                correct: 1
+            },
+            {
+                q: "3. Siapa orang paling ganteng yang lagi ulang tahun hari ini?",
+                options: ["Muhammad Sandy", "Sandy Ganteng", "Pacar Aku", "Semua Benar! ❤️"],
+                correct: 3
+            }
+        ];
+
+        const quizDataAboutMe = [
+            {
+                q: "1. Siapa nama wanita cantik pacarmu ini? 😜",
+                options: ["Emerald", "Emeralda", "Aurel", "Esmeralda"],
+                correct: 1
+            },
+            {
+                q: "2. Hal apa yang paling aku GA SUKA kalau kamu lakuin?",
+                options: ["Lupa Makan", "Dibohongin", "Main Game", "Tidur Kemalaman"],
+                correct: 1
+            },
+            {
+                q: "3. Makanan/Olahannya apa yang aku GA BISA makan?",
+                options: ["Cokelat", "Olahan dari berry-berryan", "Olahan keju", "Pedas berlebihan"],
+                correct: 1
+            },
+            {
+                q: "4. Apakah aku suka makan Seblak?",
+                options: ["Suka banget!", "Suka kalau lagi pusing", "Ga terlalu", "Benci banget"],
+                correct: 2
+            }
+        ];
+
+        const reasonsData = [
+            "Kamu selalu punya cara buat bikin aku tersenyum meski hari lagi capek.",
+            "Kesabaran kamu meladeni kelakuan dan random-nya aku.",
+            "Senyuman dan ketawa kamu yang selalu jadi favorit aku.",
+            "Cara kamu merawat dan perhatian sama aku tanpa perlu banyak alasan.",
+            "Kamu sosok yang dewasa, pekerja keras, tapi tetap humoris.",
+            "Berada di dekat kamu rasanya tenang banget, kayak tempat pulang.",
+            "Kamu selalu dengerin cerita-ceritaku walaupun kadang ga penting wkwk.",
+            "Kamu sosok yang selalu bikin aku merasa aman dan dihargai.",
+            "Suara dan obrolan kamu di WhatsApp selalu jadi notifikasi paling aku tunggu.",
+            "Karena kamu adalah Muhammad Sandy, sosok terbaik yang pernah hadir di hidup aku. ❤️"
+        ];
+
+        let activeQuiz = [];
+        let currentQuizIndex = 0;
+        let activeQuizType = "";
+
+        const menuBtn = document.querySelector("header .menu");
+        const menuModal = document.getElementById("menuModal");
+        const closeMenuBtn = document.getElementById("closeMenuBtn");
+
+        if (menuBtn && menuModal) {
+            menuBtn.onclick = () => {
+                menuModal.classList.add("active");
+                backToGameSelect();
+            };
+        }
+
+        if (closeMenuBtn) {
+            closeMenuBtn.onclick = () => menuModal.classList.remove("active");
+        }
+
+        function backToGameSelect() {
+            document.getElementById("gameSelect").style.display = "flex";
+            document.getElementById("quizBox").style.display = "none";
+            document.getElementById("quizResult").style.display = "none";
+            document.getElementById("reasonsBox").style.display = "none";
+        }
+
+        function startQuiz(type) {
+            activeQuizType = type;
+            currentQuizIndex = 0;
+            activeQuiz = (type === 'moment') ? quizDataMoments : quizDataAboutMe;
+
+            document.getElementById("gameSelect").style.display = "none";
+            document.getElementById("quizBox").style.display = "block";
+            document.getElementById("quizResult").style.display = "none";
+            document.getElementById("reasonsBox").style.display = "none";
+            loadQuiz();
+        }
+
+        function openReasons() {
+            document.getElementById("gameSelect").style.display = "none";
+            document.getElementById("quizBox").style.display = "none";
+            document.getElementById("quizResult").style.display = "none";
+            
+            const reasonsBox = document.getElementById("reasonsBox");
+            const reasonsList = document.getElementById("reasonsList");
+            reasonsList.innerHTML = "";
+
+            reasonsData.forEach((reason, idx) => {
+                const card = document.createElement("div");
+                card.className = "reason-card";
+                card.innerHTML = `
+                    <div class="reason-num">${idx + 1}</div>
+                    <div class="reason-text">${reason}</div>
+                `;
+                reasonsList.appendChild(card);
+            });
+
+            reasonsBox.style.display = "flex";
+            fireConfetti();
+        }
+
+        function loadQuiz() {
+            const currentQuiz = activeQuiz[currentQuizIndex];
+            document.getElementById("quizQuestion").innerText = currentQuiz.q;
+            const optionsBox = document.getElementById("quizOptions");
+            optionsBox.innerHTML = "";
+
+            currentQuiz.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "quiz-btn";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx);
+                optionsBox.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIdx) {
+            if (selectedIdx === activeQuiz[currentQuizIndex].correct) {
+                fireConfetti();
+                currentQuizIndex++;
+                if (currentQuizIndex < activeQuiz.length) {
+                    loadQuiz();
+                } else {
+                    document.getElementById("quizBox").style.display = "none";
+                    const resultBox = document.getElementById("quizResult");
+                    const resultTitle = document.getElementById("resultTitle");
+                    const resultMsg = document.getElementById("quizResultMessage");
+
+                    if(activeQuizType === 'moment') {
+                        resultTitle.innerText = "🎉 LULUS KUIS MOMEN KITA!";
+                        resultMsg.innerText = "Terima kasih ya sudah mengingat momen-momen kecil kita. Kamu emang pacar terbaik! Tetap sama aku terus ya, ganteng. 🤍";
+                    } else {
+                        resultTitle.innerText = "👑 SKOR 100! PACAR SERBA TAHU!";
+                        resultMsg.innerText = "Pinter banget pacar Emeralda! Kamu terbukti perhatian banget dan tau semua tentang aku dari A sampai Z! I love you so much! 💖✨";
+                    }
+
+                    resultBox.style.display = "block";
+                    fireConfetti();
+                }
+            } else {
+                alert("Tetot! Jawabanmu salah wkwk, coba lagi ya sayang! 😜");
+            }
+        }
+    </script>
+</body>
+</html>
