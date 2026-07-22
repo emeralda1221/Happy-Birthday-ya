@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Muhammad Sandy</title>
+    <title>Happy Birthday Sandy</title>
     <!-- Library Konfeti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -985,7 +985,7 @@
     <div class="fake-notif" id="fakeNotif">
         <div class="notif-icon">❤️</div>
         <div class="notif-content">
-            <div class="notif-title"><b>emeralda_</b> liked your photo. <span style="opacity:0.6; font-weight:normal;">1s</span></div>
+            <div class="notif-title"><b>emeralda</b> liked your personality. <span style="opacity:0.6; font-weight:normal;">1s</span></div>
             <div class="notif-subtitle">"Sebab kamu adalah alasan di balik senyumku setiap hari."</div>
         </div>
     </div>
@@ -1021,8 +1021,8 @@
 
             <!-- TENGAH: Nama & Tanggal -->
             <div class="nav-center">
-                <h2 class="user-name">Muhammad Sandy</h2>
-                <span class="user-date">30 September 2026</span>
+                <h2 class="user-name">Sandy</h2>
+                <span class="user-date">30 September</span>
             </div>
 
             <!-- KANAN: Music Player Card -->
@@ -1265,7 +1265,7 @@
             </div>
             <div class="game-card" onclick="startQuiz('aboutMe')">
                 <h4>✨ Seberapa Tau Kamu Tentang Aku?</h4>
-                <p>Kuis khusus buat ngetes seberapa peka dan kenal kamu sama Emeralda! 😉</p>
+                <p>Kuis khusus buat ngetes seberapa peka dan kenal kamu sama aku! 😉</p>
             </div>
             <div class="game-card" onclick="showPinPrompt()">
                 <h4>💖 10 Reasons Why I Love You 🔒</h4>
@@ -1277,7 +1277,7 @@
         <div class="pin-box" id="pinBox">
             <button class="back-to-menu-btn" onclick="backToGameSelect()">⬅ Kembali ke Pilihan Game</button>
             <h4>🔒 Rahasia Terkunci!</h4>
-            <p>Masukkan PIN (Tanggal & Bulan Ultah Emeralda - Format: DDMM):</p>
+            <p>Masukkan password (Makanan Kesukaan Format: huruf kecil semua):</p>
             <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="••••">
             <br>
             <button class="pin-btn" onclick="verifyPin()">Buka Rahasia 🔓</button>
@@ -1787,7 +1787,7 @@ Happy Birthday, my favorite person! 🤍`;
             },
             {
                 q: "3. Siapa orang paling ganteng yang lagi ulang tahun hari ini?",
-                options: ["Muhammad Sandy", "Sandy Ganteng", "Pacar Aku", "Semua Benar! ❤️"],
+                options: ["Favorite Person", "Orang Ganteng", "Pacar Aku", "Semua Benar! ❤️"],
                 correct: 3
             }
         ];
@@ -1795,12 +1795,12 @@ Happy Birthday, my favorite person! 🤍`;
         const quizDataAboutMe = [
             {
                 q: "1. Siapa nama wanita cantik pacarmu ini? 😜",
-                options: ["Emerald", "Emeralda", "Aurel", "Esmeralda"],
+                options: ["Mermaid", "Emeralda", "Batu", "Esmeralda"],
                 correct: 1
             },
             {
                 q: "2. Hal apa yang paling aku GA SUKA kalau kamu lakuin?",
-                options: ["Lupa Makan", "Dibohongin", "Main Game", "Tidur Kemalaman"],
+                options: ["Lupa Makan", "Bohong", "Main Game", "Tidur Kemalaman"],
                 correct: 1
             },
             {
@@ -1825,7 +1825,7 @@ Happy Birthday, my favorite person! 🤍`;
             "Kamu selalu dengerin cerita-ceritaku walaupun kadang ga penting wkwk.",
             "Kamu sosok yang selalu bikin aku merasa aman dan dihargai.",
             "Suara dan obrolan kamu di WhatsApp selalu jadi notifikasi paling aku tunggu.",
-            "Karena kamu adalah Muhammad Sandy, sosok terbaik yang pernah hadir di hidup aku. ❤️"
+            "Karena kamu adalah sosok terbaik yang pernah hadir di hidup aku. ❤️"
         ];
 
         let activeQuiz = [];
@@ -1879,7 +1879,7 @@ Happy Birthday, my favorite person! 🤍`;
 
         function verifyPin() {
             const inputVal = document.getElementById("pinInput").value.trim();
-            if (inputVal === "0911") {
+            if (inputVal === "bebek") {
                 openReasons();
             } else {
                 alert("Tetot! PIN Salah! 😜 Aku marah nih.");
