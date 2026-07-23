@@ -227,8 +227,8 @@
             background: rgba(0, 0, 0, 0.3);
             border-radius: 6px;
             padding: 3px 5px;
-            margin-top: 6px;
-            height: 24px;
+            margin-top: 1px;
+            height: 35px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -245,6 +245,7 @@
             text-overflow: ellipsis;
             overflow: hidden;
         }
+        
 
         /* MINIMIZED PLAYER CARD */
         .music-card.minimized {
@@ -996,11 +997,11 @@
 </head>
 <body>
 
-    <!-- NOTIFIKASI LIKE "LIKED YOUR PHOTO" -->
+    <!-- NOTIFIKASI LIKE  -->
     <div class="fake-notif" id="fakeNotif">
         <div class="notif-icon">❤️</div>
         <div class="notif-content">
-            <div class="notif-title"><b>emeralda</b> liked your personality. <span style="opacity:0.6; font-weight:normal;">1s</span></div>
+            <div class="notif-title"><b>emeralda</b> like you too. <span style="opacity:0.6; font-weight:normal;">1s</span></div>
             <div class="notif-subtitle">"Sebab kamu adalah alasan di balik senyumku setiap hari."</div>
         </div>
     </div>
@@ -1046,7 +1047,7 @@
                     <div class="music-header">
                         <div class="playlist-title">
                             <span>🎵</span>
-                            <span>PLAYLIST SANDY</span>
+                            <span>PLAYLIST FOR YOU</span>
                         </div>
                         <div class="header-icons">
                             <span class="icon-btn-action" id="openPlaylistBtn" title="Daftar Lagu">📜</span>
@@ -1056,8 +1057,8 @@
                     
                     <div class="music-body">
                         <div class="song-info">
-                            <h4 class="song-title" id="songTitle">Serta Mulia</h4>
-                            <span class="song-artist" id="songArtist">Sal Priadi</span>
+                            <h4 class="song-title" id="songTitle">to you</h4>
+                            <span class="song-artist" id="songArtist">from me</span>
                         </div>
                         <div class="music-controls">
                             <button class="btn-ctrl" id="prevBtn">⏮</button>
@@ -1416,9 +1417,11 @@
                 artist: "Sal Priadi",
                 src: "lagu/Serta Mulia.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 Mendaratlah, berselancar di atas senyuman..." },
-                    { time: 5, text: "Serta mulia, panjang umur dan bahagia..." },
-                    { time: 10, text: "🤍 Selamat ulang tahun, sayangku Sandy..." }
+                    { time: 0, text: "Dari miliaran orang di dunia, ajaib banget ya kita malah bisa ketemu" },
+                    { time: 10, text: "Aku tahu aku jauh dari kata sempurna, tapi aku bakal selalu usahain buat bikin kamu ketawa 😂🤍" },
+                    { time: 20, text: "Makasih ya udah selalu sabar dan mau bertahan jalani hari-hari sama aku" },
+                    { time: 30, text: "Semoga kita bisa terus berjalan bareng, tumbuh bareng, dan damai sentosa selamanya 🥂✨" },
+                    { time: 40, text: "Serta mulia, panjang umur, dan bahagia selalu ya, sayangku Sandy!" }
                 ]
             },
             {
@@ -1426,30 +1429,34 @@
                 artist: "Shania Twain",
                 src: "lagu/Youre Still The One.mp3",
                 lyrics: [         
-                    { time: 0, text: "🎵 Lihat seberapa jauh kita udah melangkah bersama sejauh ini..." },
+                    { time: 0, text: "Lihat seberapa jauh kita udah melangkah bersama sejauh ini" },
                     { time: 5, text: "Mau bagaimanapun, kamu tetap jadi tempat pertama yang selalu aku tuju 🤍" },
-                    { time: 10, text: "Satu-satunya orang yang selalu aku impikan dan aku inginkan selamanya..." },
+                    { time: 10, text: "Satu-satunya orang yang selalu aku impikan dan aku inginkan selamanya" },
                     { time: 15, text: "Bersyukur banget punya kamu, you're still the one for me, Sandy! ✨" }
                 ]
+            },
+            {
+                title: "Tak Ada Ujungnya",
+                artist: "Rony Parulian",
+                src: "lagu/Tak Ada Ujungnya.mp3",
+                lyrics: [
+                    { time: 0, text: "Dulu aku kira hatiku udah mati rasa, sampai akhirnya kamu datang..." },
+                    { time: 10, text: "Makasih ya udah sabar meruntuhkan kokohnya tembok pertahanan yang pernah kubangun 🧱🤍" },
+                    { time: 20, text: "Gak pernah nyangka kamu sanggup menghidupkan lagi perasaan indah ini..." },
+                    { time: 30, text: "Janji bakal selalu jaga rasa ini di dalam samudera perasaanku yang paling dalam..." },
+                    { time: 40, text: "Semoga cinta ini gak ada ujungnya dan terus bertahan selamanya buat kamu, Sandy! ✨" }
+                 ]
             },
             {
                 title: "Drop Dead",
                 artist: "Olivia Rodrigo",
                 src: "lagu/Drop Dead.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 Iseng kepoin kamu waktu itu ternyata jadi awal dari semuanya..." },
-                    { time: 5, text: "Dari awal udah punya intuisi kalau kita bakalan cocok banget..." },
-                    { time: 10, text: "Kadang sampai mikir 'ini beneran pacarku bukan sih?' 😂🤍" }
-                ]
-            },
-            {
-                title: "Tak Ada Ujungnya",
-                artist: "Rony Parulian",
-                src: "lagu/Tak ADa Ujungnya.mp3",
-                lyrics: [
-                    { time: 0, text: "aku kira aku udah mati rasa" },
-                    { time: 5, text: "terimakasih sudah hadir dan selamat berhasil meruntuhkan tembok yang kubangun" },
-                    { time: 10, text: "semoga perasaan ini gak hanya lama tapi selamanya" }
+                 { time: 0, text: "Iseng kepoin kamu waktu itu ternyata jadi awal dari cerita manis kita" },
+                 { time: 10, text: "Intuisi aku emang gak pernah salah, dari awal udah berfirasat kalau kita bakalan cocok banget ✨" },
+                 { time: 20, text: "Kamu tuh cakep banget sampai kadang bikin paranoid, 'Ini beneran pacarku bukan sih?' 😂🤍" },
+                 { time: 30, text: "Momen sama kamu tuh selalu berharga, rasanya mau minta waktu buat jalan sepelan mungkin" },
+                 { time: 40, text: "Pokoknya makasih ya udah hadir di hidupku dan bikin hari-hariku jadi jauh lebih hidup, Sandy!🤍" }
                 ]
             },
             {
@@ -1457,19 +1464,23 @@
                 artist: "Samuel Cipta",
                 src: "lagu/Jagat Rasa.mp3",
                 lyrics: [
-                    { time: 0, text: "aku dulu bersikeras mau ngerantau ke kota orang yg punya beda bahasa" },
-                    { time: 5, text: "berharap dapat pasangan di sini" },
-                    { time: 10, text: "tapi namanya jodoh ga ada yg tau ternyata jagat rasa ku orang lokal wkwk" }
+                 { time: 0, text: "Dulu bersikeras ngerantau jauh berharap dapat pasangan di kota orang..." },
+                 { time: 10, text: "Tapi namanya jodoh gak ada yang tahu, ternyata 'jagat rasa'-ku malah orang lokal sendiri wkwk 😂🤍" },
+                 { time: 20, text: "Kehadiranmu beneran memberi warna yang sempurna di tiap hari-hariku..." },
+                 { time: 30, text: "Mau sejauh apa pun mengarungi dunia, pada akhirnya tetap kamu ujung pencarianku..." },
+                 { time: 40, text: "Terima kasih sudah bikin masa-masaku sempurna, semoga kau dan aku bisa selamanya ya, Sandy! ✨" }
                 ]
             },
-            {
+            { 
                 title: "My Love",
                 artist: "Westlife",
                 src: "lagu/My Love.mp3",
                 lyrics: [
-                    { time: 0, text: "aku kira aku udah mati rasa" },
-                    { time: 5, text: "terimakasih sudah hadir dan selamat berhasil meruntuhkan tembok yang kubangun" },
-                    { time: 10, text: "semoga perasaan ini gak hanya lama tapi selamanya" }
+                    { time: 0, text: "Hari-hariku yang tadinya sepi dan biasa aja, mendadak berubah penuh warna sejak ada kamu..." },
+                    { time: 10, text: "Mau lagi sibuk atau ramai sama teman-teman pun, pikiran ini pasti larinya tetap ke kamu terus 💭🤍" },
+                    { time: 20, text: "Gak peduli seberapa jauh atau seberapa sulit jalannya, aku bakal selalu berjuang buat kamu..." },
+                    { time: 30, text: "Karena di mana pun kamu berada, di situlah rumah dan tempat terbaik yang paling aku tuju 🏡✨" },
+                    { time: 40, text: "Terus sama-sama ya, Sandy... You will always be my love, now and forever!"}
                 ]
             },
             {
@@ -1477,8 +1488,11 @@
                 artist: "Samuel Cipta",
                 src: "lagu/Senja Sudut Kota.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 Di sudut kota ini kita bermula..." },
-                    { time: 5, text: "🌇 Menikmati senja bersama dirimu..." }
+                    { time: 0, text: "🎵 Di tengah riuhnya kota, tempat ini jadi saksi cerita manis yang kita bangun bareng..." },
+                    { time: 10, text: "Makasih ya udah jadi tempat berteduh paling tenang dari semua gemuruh dan capeknya dunia 🏙️🤍" },
+                    { time: 20, text: "Cuma duduk sederhana, menikmati senja sambil pegangan tangan sama kamu aja udah bikin bahagia banget..." },
+                    { time: 30, text: "Waktu rasanya kejam banget berjalan cepat pas bareng kamu, selalu pengen nahan momennya lebih lama ⏳" },
+                    { time: 40, text: "Semoga romansa sederhana kita ini takkan pernah mati dan terus terasa indah ya, Sandy! ✨" }
                 ]
             },
             {
@@ -1486,9 +1500,12 @@
                 artist: "Adrian Khalif",
                 src: "lagu/2001x.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 Kadang bikin ngeselin, tapi kalau nggak ada malah kangen banget..." },
-                    { time: 5, text: "Mau kayak gimana juga, kamu tetap orang paling aku sayang! 🤍" },
-                    { time: 10, text: "Gak apa-apa sering beda pendapat, yang penting habis itu baikan lagi..." }
+                    { time: 0, text: "Pokoknya kalau gak ada kamu rasanya sepi banget, wlpn sering dijahilin😂" },
+                    { time: 10, text: "Semenit gemes menyenangkan, semenit lagi bikin pusing... tapi katanya emang gini ya namanya cinta? 🤍" },
+                    { time: 20, text: "Mau kayak gimana juga, tetep kamu orang paling aku sayang di satu bumi ini!" },
+                    { time: 30, text: "Biar 2.000 kali kita beda pendapat atau berantem, yang penting habis itu wajib baikan lagi 2.001 kali ya..." },
+                    { time: 40, text: "Janji ya Sandy, kita bakal tetep akur terus walau kadang kelakuanmu atau aku suka bikin serba salah! ✨" }                
+                
                 ]
             },
             {
@@ -1496,9 +1513,11 @@
                 artist: "Ghea Indrawari",
                 src: "lagu/1000X.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 Bersyukur banget bisa ketemu dan kenal sama kamu..." },
-                    { time: 5, text: "Kalau waktu bisa diulang seribu kali pun, aku bakal tetap pilih kamu..." },
-                    { time: 10, text: "I would choose you a thousand times over, happy birthday Sandy! ✨" }
+                    { time: 0, text: "Dulu suka iri lihat pasangan lain, tapi pas ngeliat kamu, aku sadar betapa beruntungnya aku..." },
+                    { time: 10, text: "Makasih ya buat cinta dan kasih sayangmu yang luar biasa tulus buat aku selama ini 🤍" },
+                    { time: 20, text: "Cukup kita saling memiliki, tetap di sampingku terus ya sampai nanti kita tua dan jadi debu..." },
+                    { time: 30, text: "Kalaupun aku terlahir seribu kali lagi di dunia yang beda, aku bakal tetap cari dan pilih kamu!" },
+                    { time: 40, text: "I would choose you a thousand times over, love you so much ✨" }
                 ]
             },
             {
@@ -1506,10 +1525,11 @@
                 artist: "Aku Jeje",
                 src: "lagu/Ceritanya Jatuh Cinta.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 Makasih ya udah hadir dan bikin hatiku bersemi lagi..." },
-                    { time: 5, text: "Melihat kamu tertawa dan bahagia itu selalu jadi hal favoritku 🤍" },
-                    { time: 10, text: "Bahkan membayangkan masa depan dan menua bersamamu aja udah indah banget..." },
-                    { time: 15, text: "Semoga kita bisa terus saling melengkapi dan bahagia selamanya ya, Sandy! ✨" }
+                    { time: 0, text: "Setelah berkali-kali patah hati, makasih ya udah hadir dan bikin hatiku bersemi lagi..." },
+                    { time: 10, text: "Kamu tuh mempesona banget, indahnya kayak purnama yang selalu nemenin malam-malamku 🌕🤍" },
+                    { time: 20, text: "Bisa melihat kamu tertawa dan bahagia terus itu selalu jadi hal paling favorit buat aku..." },
+                    { time: 30, text: "Bayangin masa depan dan menua bareng kamu aja udah terasa indah banget" },
+                    { time: 40, text: "🤍 Sudikah kiranya kamu izinkan aku buat terus dampingi kamu, tertawa dan bahagia selamanya, Sandy? ✨" }
                 ]
             },
             {
@@ -1517,10 +1537,11 @@
                 artist: "Ruth B.",
                 src: "lagu/Dandelions.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 Cause I'm in a field of dandelions..." },
-                    { time: 5, text: "✨ Wishing on every one that you'll be mine..." },
-                    { time: 10, text: "🤍 I see forever in your eyes..." },
-                    { time: 15, text: "💭 And I feel okay when I see you smile..." }
+                    { time: 0, text: "Ada sesuatu dari dirimu yang bikin aku sadar, aku belum pernah ketemu orang seistimewa kamu..." },
+                    { time: 10, text: "Katanya ada cinta yang cuma datang sekali seumur hidup, dan aku yakin banget cinta itu adalah kamu 🤍" },
+                    { time: 20, text: "Setiap kali ngeliat kamu senyum, rasanya semua masalah langsung hilang dan hatiku merasa tenang banget..." },
+                    { time: 30, text: "Aku bisa melihat masa depan di matamu, dan aku selalu berdoa sama Tuhan supaya bisa terus sama kamu ✨" },
+                    { time: 40, text: "Biar angin menyampaikan semua doa-doaku... Semoga kita bisa selalu bersama selamanya ya, Sandy!" } 
                 ]
             },
             {
@@ -1528,9 +1549,14 @@
                 artist: "Taylor Swift",
                 src: "lagu/Love Story.mp3",
                 lyrics: [
-                    { time: 0, text: "🎵 We were both young when I first saw you..." },
-                    { time: 15, text: "👑 Romeo, take me somewhere we can be alone..." }
-                ]
+                    { time: 0, text: "🎵 We were both young when I first saw you"},
+                    { time: 15, text: "👑 Romeo, take me somewhere we can be alone" },
+                    { time: 0, text: "🎵 Masih ingat banget pertama kali ketemu kamu, terasa kayak awal dari sebuah kisah dongeng" },
+                    { time: 10, text: "Meskipun kadang ada rintangan atau hal yang bikin sulit, cinta kita ini beneran nyata🤍" },
+                    { time: 20, text: "Percaya deh, kita pasti bisa melewatinya bareng-bareng dan bikin cerita kita sendiri" },
+                    { time: 30, text: "Nggak perlu ragu lagi, karena kamu adalah pangeran impian yang selalu aku tunggu ✨" },
+                    { time: 40, text: "🤍 This is our own love story, Sandy... Mari kita tulis akhir yang bahagia selamanya!" }    
+                ]                
             }
         ];
 
