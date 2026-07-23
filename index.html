@@ -118,6 +118,20 @@
             display: flex;
             align-items: flex-end;
         }
+        /* DUYUNG SLIDER (NEW) */
+        .duyung-slide {
+            animation: fadeIn 0.4s ease;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px dashed #4fa6ff;
+            margin-bottom: 15px;
+        }
 
         /* FLOATING MUSIC CARD */
         .music-card {
@@ -633,6 +647,7 @@
             border-radius: 10px;
             pointer-events: none;
         }
+ 
 
         /* FULLSCREEN GALLERY VIEWER WITH STORY CAPTION */
         #viewer {
@@ -1251,7 +1266,7 @@
         </nav>
     </div>
 
-    <!-- MODAL POPUP GAME & KUIS -->
+   <!-- MODAL POPUP GAME & KUIS -->
     <div id="menuModal" class="menu-modal">
         <div class="menu-header">
             <h3>🎮 Games & Quiz Rahasia</h3>
@@ -1269,7 +1284,18 @@
             </div>
             <div class="game-card" onclick="showPinPrompt()">
                 <h4>💖 10 Reasons Why I Love You 🔒</h4>
-                <p>10 Alasan kenapa kamu itu sosok yang spesial banget buat aku (Terkunci PIN).</p>
+                <p>10 Alasan kenapa kamu itu sosok yang spesial banget buat aku (Terkunci).</p>
+            </div>
+            <!-- GAME BARU: RAHASIA DUYUNG -->
+            <div class="game-card" onclick="showPinDuyung()">
+                <h4>🧜‍♀️ Rahasia Lautan Dalam 🔒</h4>
+                <p>Pesan rahasia dari orang cantik buat pacarnya (Terkunci).</p>
+            </div>
+
+            <!-- KARTU MENU SERTIFIKAT -->
+            <div class="game-card" onclick="showCertificate()">
+                <h4>📜 Sertifikat Hak Milik Hati</h4>
+                <p>Penghargaan resmi buat pacar tersayang!</p>
             </div>
         </div>
 
@@ -1277,10 +1303,38 @@
         <div class="pin-box" id="pinBox">
             <button class="back-to-menu-btn" onclick="backToGameSelect()">⬅ Kembali ke Pilihan Game</button>
             <h4>🔒 Rahasia Terkunci!</h4>
-            <p>Masukkan password (Makanan Kesukaan Format: huruf kecil semua):</p>
+            <p>Masukkan password (Makanan Kesukaan : Apa makanan yang aku suka? (Format: huruf kecil semua)):</p>
             <input type="password" id="pinInput" class="pin-input" maxlength="5" placeholder="•••••">
             <br>
             <button class="pin-btn" onclick="verifyPin()">Buka Rahasia 🔓</button>
+        </div>
+
+        <!-- BOX MASUKKAN PIN DUYUNG -->
+        <div class="pin-box" id="pinBoxDuyung">
+            <button class="back-to-menu-btn" onclick="backToGameSelect()">⬅ Kembali ke Pilihan Game</button>
+            <h4>🔒 Siapakah Aku?</h4>
+            <p>Tebak kata sandi rahasianya (Format: huruf kecil semua)</p>
+            <input type="password" id="pinInputDuyung" class="pin-input" placeholder="------">
+            <br>
+            <button class="pin-btn" onclick="verifyPinDuyung()">Buka Lautan 🌊</button>
+        </div>
+
+        <!-- BOX SERTIFIKAT & DOWNLOAD -->
+        <div class="quiz-container" id="certBox" style="text-align: center; display: none;">
+            <button class="back-to-menu-btn" onclick="backToGameSelect()">⬅ Kembali ke Pilihan Game</button>
+            <h3 style="color:#ffe600; margin-bottom: 10px;">📜 Sertifikat Semat Ultah</h3>
+            <p style="font-size: 13px; opacity: 0.9; margin-bottom: 15px;">Bukti sah ruang hati Emeralda untuk Sandy!</p>
+
+            <!-- Preview Gambar Sertifikat -->
+            <img src="foto/Sertifikat Penghargaan Pacar Terbaik Geometris Putih dan Merah .png" alt="Sertifikat Ultah" style="width: 100%; max-width: 350px; border-radius: 12px; border: 2px dashed #4fa6ff; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
+
+            <!-- Tombol Download JPG -->
+            <!-- Pastikan file sertifikat kamu ada di folder foto dengan nama sertifikat.jpg -->
+            <a href="foto/Sertifikat Penghargaan Pacar Terbaik Geometris Putih dan Merah .png" download="Sertifikat_Kesayangan_Sandy.jpg" style="text-decoration: none;">
+                <button class="quiz-btn" style="width: 100%; background: linear-gradient(135deg, #4fa6ff, #0066cc); font-weight: bold; text-align: center; font-size: 15px; border: none; box-shadow: 0 4px 10px rgba(79, 166, 255, 0.4);">
+                    ⬇️ Download Sertifikat (JPG)
+                </button>
+            </a>
         </div>
 
         <div class="quiz-container" id="quizBox">
@@ -1304,6 +1358,39 @@
             <div id="reasonsList"></div>
             <div class="ss-notice" style="text-align: center;">
                 📸 SCREENSHOT HALAMAN INI BILA PERLU BIAR KAMU INGAT TRUS HAAHA! 💖
+            </div>
+        </div>
+
+     <!-- SLIDER DUYUNG & GOMBALAN GIS -->
+        <div id="duyungSlider" class="quiz-container" style="text-align:center; padding: 20px;">
+            <button class="back-to-menu-btn" onclick="backToGameSelect()">⬅ Kembali ke Pilihan Game</button>
+            <h3 style="color:#ffe600; margin-bottom: 15px;">🧜‍♀️ Pesan Rahasia Lautan</h3>
+            
+            <div id="slide1" class="duyung-slide active">
+                <p style="font-size: 16px; line-height: 1.6;">Cinta kita tuh kayak <b>Topologi</b>, selalu terhubung dan nggak akan pernah overlap atau terpisah oleh batas administrasi apapun. 🗺️🤍</p>
+            </div>
+            <div id="slide2" class="duyung-slide" style="display:none;">
+                <p style="font-size: 16px; line-height: 1.6;">Kamu itu ibarat <b>GPS</b>, selalu ngasih koordinat X dan Y yang tepat buat hatiku supaya nggak pernah nyasar ke lain hati. 🛰️✨</p>
+            </div>
+            <div id="slide3" class="duyung-slide" style="display:none;">
+                <p style="font-size: 16px; line-height: 1.6;">Kalau hatiku itu sebuah titik (Point), maka kamu adalah <b>Buffer</b>-nya. Selalu melindungiku dan mencakup semua perhatianku. ⭕💖</p>
+            </div>
+            <div id="slide4" class="duyung-slide" style="display:none;">
+                <p style="font-size: 16px; line-height: 1.6;">Sebesar apapun <b>Skala</b> peta yang aku buat, tetep nggak akan pernah bisa mengukur seberapa luas rasaku ke kamu. 📏😘</p>
+            </div>
+            <div id="slide5" class="duyung-slide" style="display:none;">
+                <p style="font-size: 16px; line-height: 1.6;">Hubungan kita ini kayak <b>Overlay</b> dua layer yang sempurna. Saling melengkapi atribut satu sama lain jadi kesatuan yang indah! 🌍🥰</p>
+            </div>
+            <div id="slide6" class="duyung-slide" style="display:none;">
+                <h4 style="color:#8fd3ff; margin-bottom:10px;">🎥 Our Recap</h4>
+                <!-- PASTIKAN MENGGANTI "video/recap.mp4" DENGAN LOKASI VIDEO ASLI ANDA -->
+                <video src="video/recap.mp4" controls style="width:100%; border-radius:12px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"></video>
+                <p style="font-size: 12px; opacity:0.8; margin-top:10px;">I love you, Sandy! 🌊🤍</p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <button class="quiz-btn" style="width:45%; text-align:center;" onclick="prevSlide()">⬅ Prev</button>
+                <button class="quiz-btn" style="width:45%; text-align:center;" onclick="nextSlide()">Next ➡</button>
             </div>
         </div>
     </div>
@@ -1358,11 +1445,31 @@
             {
                 title: "Tak Ada Ujungnya",
                 artist: "Rony Parulian",
-                src: "lagu/Tak ADa Ujungnya .mp3",
+                src: "lagu/Tak ADa Ujungnya.mp3",
                 lyrics: [
-                    { time: 0, text: "kalau rony ." },
-                    { time: 5, text: "Dari awal udah punya intuisi kalau kita bakalan cocok banget..." },
-                    { time: 10, text: "Kadang sampai mikir 'ini beneran pacarku bukan sih?' 😂🤍" }
+                    { time: 0, text: "aku kira aku udah mati rasa" },
+                    { time: 5, text: "terimakasih sudah hadir dan selamat berhasil meruntuhkan tembok yang kubangun" },
+                    { time: 10, text: "semoga perasaan ini gak hanya lama tapi selamanya" }
+                ]
+            },
+            {
+                title: "Jagat Rasa",
+                artist: "Samuel Cipta",
+                src: "lagu/Jagat Rasa.mp3",
+                lyrics: [
+                    { time: 0, text: "aku dulu bersikeras mau ngerantau ke kota orang yg punya beda bahasa" },
+                    { time: 5, text: "berharap dapat pasangan di sini" },
+                    { time: 10, text: "tapi namanya jodoh ga ada yg tau ternyata jagat rasa ku orang lokal wkwk" }
+                ]
+            },
+            {
+                title: "My Love",
+                artist: "Westlife",
+                src: "lagu/My Love.mp3",
+                lyrics: [
+                    { time: 0, text: "aku kira aku udah mati rasa" },
+                    { time: 5, text: "terimakasih sudah hadir dan selamat berhasil meruntuhkan tembok yang kubangun" },
+                    { time: 10, text: "semoga perasaan ini gak hanya lama tapi selamanya" }
                 ]
             },
             {
@@ -1856,14 +1963,21 @@ Happy Birthday, my favorite person! 🤍`;
         if (closeMenuBtn) {
             closeMenuBtn.onclick = () => menuModal.classList.remove("active");
         }
-
         function backToGameSelect() {
             document.getElementById("gameSelect").style.display = "flex";
             document.getElementById("pinBox").style.display = "none";
             document.getElementById("quizBox").style.display = "none";
             document.getElementById("quizResult").style.display = "none";
             document.getElementById("reasonsBox").style.display = "none";
+            
+            // Menyembunyikan menu duyung & sertifikat
+            document.getElementById("pinBoxDuyung").style.display = "none";
+            document.getElementById("duyungSlider").style.display = "none";
+            document.getElementById("certBox").style.display = "none"; // TAMBAHAN INI
+
+            // Reset input
             document.getElementById("pinInput").value = "";
+            document.getElementById("pinInputDuyung").value = "";
         }
 
         function startQuiz(type) {
@@ -1961,6 +2075,78 @@ Happy Birthday, my favorite person! 🤍`;
             } else {
                 alert("Tetot! Jawabanmu salah wkwk, coba lagi ya sayang! 😜");
             }
+        }
+       // ============================================
+        // LOGIKA GAME BARU: RAHASIA DUYUNG
+        // ============================================
+        let currentSlideDuyung = 1;
+        const totalSlidesDuyung = 6;
+
+        function showPinDuyung() {
+            document.getElementById("gameSelect").style.display = "none";
+            document.getElementById("pinBox").style.display = "none";
+            document.getElementById("quizBox").style.display = "none";
+            document.getElementById("quizResult").style.display = "none";
+            document.getElementById("reasonsBox").style.display = "none";
+            
+            // Tampilkan PIN Duyung
+            document.getElementById("pinBoxDuyung").style.display = "block";
+            document.getElementById("duyungSlider").style.display = "none";
+        }
+
+        function verifyPinDuyung() {
+            const val = document.getElementById("pinInputDuyung").value.trim().toLowerCase();
+            if (val === "duyung") {
+                openDuyungSlides();
+            } else {
+                alert("Salah wkwkwk! Clue nya: Lautan 🌊🧜‍♀️");
+                document.getElementById("pinInputDuyung").value = "";
+            }
+        }
+
+        function openDuyungSlides() {
+            document.getElementById("pinBoxDuyung").style.display = "none";
+            document.getElementById("duyungSlider").style.display = "block";
+            currentSlideDuyung = 1;
+            showSlideDuyung(currentSlideDuyung);
+            fireConfetti();
+        }
+
+        function showSlideDuyung(n) {
+            for(let i=1; i<=totalSlidesDuyung; i++) {
+                document.getElementById("slide"+i).style.display = "none";
+            }
+            document.getElementById("slide"+n).style.display = "flex";
+        }
+
+        function nextSlide() {
+            if(currentSlideDuyung < totalSlidesDuyung) {
+                currentSlideDuyung++;
+                showSlideDuyung(currentSlideDuyung);
+            } else {
+                // Jika ingin otomatis kembali saat selesai (opsional)
+                // backToGameSelect();
+            }
+        }
+
+        function prevSlide() {
+            if(currentSlideDuyung > 1) {
+                currentSlideDuyung--;
+                showSlideDuyung(currentSlideDuyung);
+            }
+        }
+        function showCertificate() {
+            document.getElementById("gameSelect").style.display = "none";
+            document.getElementById("pinBox").style.display = "none";
+            document.getElementById("quizBox").style.display = "none";
+            document.getElementById("quizResult").style.display = "none";
+            document.getElementById("reasonsBox").style.display = "none";
+            document.getElementById("pinBoxDuyung").style.display = "none";
+            document.getElementById("duyungSlider").style.display = "none";
+            
+            // Tampilkan box sertifikat
+            document.getElementById("certBox").style.display = "block";
+            fireConfetti(); // Biar meriah pas dibuka!
         }
     </script>
 </body>
